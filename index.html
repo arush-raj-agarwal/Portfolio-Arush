@@ -23,6 +23,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-700-normal.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-500-normal.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Supabase Configuration
+  const SUPABASE_URL = 'https://mfybkukpbvxplltrnyoj.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_cU3-ciWABXgdJCsojGh3Ag_dkPO96qK';
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 <style>
   :root {
     --bg:#f5f3ee; --ink:#111111; --muted:#6b6b6b; --line:#e5e2db;
@@ -630,8 +637,43 @@ async function sha256(str) {
 function getPassHash() { return localStorage.getItem(PASS_KEY) || DEFAULT_PASS_HASH; }
 function isAuthenticated() { return sessionStorage.getItem(AUTH_KEY) === '1'; }
 
-let DATA = loadData();
-function loadData() {
+let DATA = null;
+let saveTimer = null;
+
+// Load data from Supabase with localStorage fallback
+async function loadData() {
+  try {
+    // Try to load from Supabase first
+    const [basicsRes, educationRes, experienceRes, projectsRes, booksRes, podcastsRes, musicRes] = await Promise.all([
+      supabase.from('basics').select('*').single(),
+      supabase.from('education').select('*').order('sort_order'),
+      supabase.from('experience').select('*').order('sort_order'),
+      supabase.from('projects').select('*').order('sort_order'),
+      supabase.from('books').select('*').order('sort_order'),
+      supabase.from('podcasts').select('*').order('sort_order'),
+      supabase.from('music').select('*').order('sort_order')
+    ]);
+
+    const hasSupabaseData = basicsRes.data || educationRes.data || experienceRes.data || projectsRes.data;
+    
+    if (hasSupabaseData) {
+      return {
+        basics: basicsRes.data || DEFAULT_DATA.basics,
+        education: educationRes.data || DEFAULT_DATA.education,
+        experience: experienceRes.data || DEFAULT_DATA.experience,
+        projects: projectsRes.data || DEFAULT_DATA.projects,
+        shelf: {
+          books: booksRes.data || DEFAULT_DATA.shelf.books,
+          podcasts: podcastsRes.data || DEFAULT_DATA.shelf.podcasts,
+          music: musicRes.data || DEFAULT_DATA.shelf.music
+        }
+      };
+    }
+  } catch (e) {
+    console.warn('Supabase load failed, falling back to localStorage', e);
+  }
+
+  // Fallback to localStorage
   try {
     const raw = localStorage.getItem(LS_KEY);
     if (raw) {
@@ -643,14 +685,76 @@ function loadData() {
   } catch (e) { console.warn('Data load failed, using defaults.', e); }
   return JSON.parse(JSON.stringify(DEFAULT_DATA));
 }
-let saveTimer = null;
-function persist(showToastFlag) {
+
+// Save data to Supabase
+async function persist(showToastFlag) {
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    try { localStorage.setItem(LS_KEY, JSON.stringify(DATA)); } catch (e) {}
+  saveTimer = setTimeout(async () => {
+    try {
+      // Save basics
+      await supabase.from('basics').upsert({ ...DATA.basics, id: 1 });
+      
+      // Save education
+      for (let item of DATA.education) {
+        if (item.id) {
+          await supabase.from('education').update(item).eq('id', item.id);
+        } else {
+          await supabase.from('education').insert([item]);
+        }
+      }
+      
+      // Save experience
+      for (let item of DATA.experience) {
+        if (item.id) {
+          await supabase.from('experience').update(item).eq('id', item.id);
+        } else {
+          await supabase.from('experience').insert([item]);
+        }
+      }
+      
+      // Save projects
+      for (let item of DATA.projects) {
+        if (item.id) {
+          await supabase.from('projects').update(item).eq('id', item.id);
+        } else {
+          await supabase.from('projects').insert([item]);
+        }
+      }
+      
+      // Save shelf items
+      for (let item of DATA.shelf.books) {
+        if (item.id) {
+          await supabase.from('books').update(item).eq('id', item.id);
+        } else {
+          await supabase.from('books').insert([item]);
+        }
+      }
+      for (let item of DATA.shelf.podcasts) {
+        if (item.id) {
+          await supabase.from('podcasts').update(item).eq('id', item.id);
+        } else {
+          await supabase.from('podcasts').insert([item]);
+        }
+      }
+      for (let item of DATA.shelf.music) {
+        if (item.id) {
+          await supabase.from('music').update(item).eq('id', item.id);
+        } else {
+          await supabase.from('music').insert([item]);
+        }
+      }
+      
+      // Also save to localStorage as backup
+      localStorage.setItem(LS_KEY, JSON.stringify(DATA));
+    } catch (e) {
+      console.error('Save failed:', e);
+      // Fallback to localStorage only
+      try { localStorage.setItem(LS_KEY, JSON.stringify(DATA)); } catch (e2) {}
+    }
+    
     const st = document.getElementById('adminStatus');
     if (st) { st.textContent = 'All changes saved · ' + new Date().toLocaleTimeString(); st.classList.remove('dirty'); }
-    if (showToastFlag) toast('Saved to this browser');
+    if (showToastFlag) toast('Saved to Supabase');
   }, 350);
   const st2 = document.getElementById('adminStatus');
   if (st2) { st2.textContent = 'Saving…'; st2.classList.add('dirty'); }
@@ -1166,9 +1270,12 @@ const arushData = [
 })();
 
 /* INIT */
-renderHome();
-initReveal();
-setTimeout(handleHash, 80);
+(async function init() {
+  DATA = await loadData();
+  renderHome();
+  initReveal();
+  setTimeout(handleHash, 80);
+})();
 </script>
 </body>
 </html>
