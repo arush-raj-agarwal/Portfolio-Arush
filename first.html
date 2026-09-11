@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ARUSH — Designer, Technologist, Strategist</title>
+<!--
+  ============================================================
+  ARUSH · PORTFOLIO + PASSWORD-PROTECTED CONTENT STUDIO
+  ------------------------------------------------------------
+  · The public site has NO visible edit link anymore.
+  · The editor lives at  #/admin  and is behind a password lock.
+  · DEFAULT PASSWORD:  arush-admin   ← CHANGE IT in Admin → Security.
+  · Visitor edits are stored only in THEIR OWN browser (localStorage),
+    so even if someone guessed the password, your live content
+    for everyone else is untouched.
+  · Honest note: a client-side password deters casual visitors but is
+    not military-grade — for real protection you'd need a server.
+  ============================================================
+-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-400-normal.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-500-normal.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-700-normal.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-500-normal.css" />
+<style>
+  :root {
+    --bg:#f5f3ee; --ink:#111111; --muted:#6b6b6b; --line:#e5e2db;
+    --accent:#ff4d1c; --accent-2:#d4ff3d; --card:#ffffff;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{display:block}
+  button{font-family:inherit}
+
+  /* NAV */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 32px;display:flex;justify-content:space-between;align-items:center;mix-blend-mode:difference;color:#fff}
+  .nav-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;cursor:pointer}
+  .nav-logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:32px;font-size:14px;font-weight:500}
+  .nav-links a{position:relative;cursor:pointer;transition:opacity .2s}
+  .nav-links a:hover{opacity:.6}
+  .nav-links a.active::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:1px;background:currentColor}
+  .menu-btn{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;font-family:'Space Grotesk',sans-serif}
+  .mobile-menu{position:fixed;inset:0;background:var(--ink);color:var(--bg);z-index:99;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:28px;transform:translateY(-100%);transition:transform .5s var(--ease)}
+  .mobile-menu.open{transform:translateY(0)}
+  .mobile-menu a{font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:500;cursor:pointer}
+
+  /* VIEWS */
+  .view{display:none;min-height:100vh}
+  .view.active{display:block;animation:vfade .5s var(--ease)}
+  @keyframes vfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .rule{height:1px;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--ease);transition-delay:var(--d,0s)}
+  .rule.in{transform:scaleX(1)}
+  .tl-line{position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--line);transform:scaleY(0);transform-origin:top;transition:transform 1.4s var(--ease)}
+  .tl-line.in{transform:scaleY(1)}
+
+  section{padding:110px 32px;max-width:1400px;margin:0 auto}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:20px}
+  .sec-head h3{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,56px);font-weight:500;letter-spacing:-.03em}
+  .sec-label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .sec-intro{max-width:560px;font-size:16px;color:var(--muted);margin:24px 0 60px}
+
+  /* HERO */
+  .hero{min-height:100vh;padding:120px 32px 60px;display:flex;flex-direction:column;justify-content:center;position:relative;max-width:1400px;margin:0 auto}
+  .hero-label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;display:flex;align-items:center;gap:12px}
+  .hero-label::before{content:'';width:32px;height:1px;background:var(--muted)}
+  .hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(46px,10vw,140px);font-weight:500;line-height:.95;letter-spacing:-.04em;margin-bottom:40px}
+  .hero-title .accent{color:var(--accent)}
+  .hero-title .italic{font-style:italic;font-weight:400}
+  .hero-sub{max-width:520px;font-size:18px;color:var(--muted);margin-bottom:48px}
+  .hero-meta{display:flex;gap:48px;flex-wrap:wrap;font-size:13px;color:var(--muted);padding-top:32px;border-top:1px solid var(--line)}
+  .hero-meta strong{display:block;color:var(--ink);font-weight:500;margin-top:4px;font-size:14px}
+  .scroll-hint{position:absolute;bottom:32px;right:32px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
+  .scroll-hint::after{content:'';width:40px;height:1px;background:var(--muted);animation:scrollLine 2s ease-in-out infinite}
+  @keyframes scrollLine{0%,100%{transform:scaleX(.3);transform-origin:left}50%{transform:scaleX(1);transform-origin:left}}
+
+  /* ARUSH */
+  .arush-section{height:500vh;position:relative;background:var(--ink);color:var(--bg)}
+  .arush-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .arush-intro{position:absolute;top:32px;left:32px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,243,238,.5);transition:opacity .4s}
+  .arush-stage{width:100%;max-width:1200px;padding:0 32px;text-align:center}
+  .arush-letters{font-family:'Space Grotesk',sans-serif;font-size:clamp(72px,22vw,280px);font-weight:700;letter-spacing:-.05em;line-height:1;display:flex;justify-content:center;gap:.05em;margin-bottom:40px}
+  .arush-letter{display:inline-block;opacity:.12;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease),color .4s}
+  .arush-letter.active{opacity:1;transform:translateY(0);color:var(--accent)}
+  .arush-letter.done{opacity:1;transform:translateY(0);color:var(--bg)}
+  .arush-meaning{font-size:clamp(16px,2.2vw,24px);min-height:1.5em;color:rgba(245,243,238,.7)}
+  .arush-meaning .key{color:var(--accent);font-weight:500}
+  .arush-progress{position:absolute;bottom:32px;left:32px;right:32px;display:flex;justify-content:space-between;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,243,238,.4)}
+  .arush-progress-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--accent);width:0%}
+
+  /* MARQUEE */
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0}
+  .marquee-track{display:flex;width:max-content;animation:marquee 36s linear infinite}
+  .marquee span{font-family:'Space Grotesk',sans-serif;font-size:14px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);padding-right:24px;white-space:nowrap}
+  .marquee b{color:var(--accent);font-weight:500}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px}
+  .about-text{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,3vw,36px);font-weight:400;line-height:1.3;letter-spacing:-.02em}
+  .about-text em{font-style:italic;color:var(--accent)}
+  .about-details{display:flex;flex-direction:column;gap:32px}
+  .about-detail h4{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:500}
+  .about-detail p{font-size:15px;line-height:1.6}
+
+  /* EDUCATION */
+  .timeline{position:relative;padding-left:36px}
+  .edu-item{position:relative;padding:0 0 56px 0}
+  .edu-item:last-child{padding-bottom:0}
+  .edu-item::before{content:'';position:absolute;left:-36px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:1.5px solid var(--ink);transition:background .3s,border-color .3s}
+  .edu-item:hover::before{background:var(--accent);border-color:var(--accent)}
+  .edu-year{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.1em;color:var(--accent);margin-bottom:8px}
+  .edu-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,2.4vw,26px);font-weight:500;letter-spacing:-.02em;margin-bottom:6px}
+  .edu-place{font-size:14px;color:var(--muted);margin-bottom:12px}
+  .edu-desc{font-size:15px;line-height:1.6;max-width:640px;color:#2a2a2a}
+  .edu-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .edu-tags span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);padding:5px 10px;border-radius:999px;color:var(--muted);transition:border-color .3s,color .3s}
+  .edu-item:hover .edu-tags span{border-color:var(--ink);color:var(--ink)}
+
+  /* EXPERIENCE */
+  .exp-row{display:grid;grid-template-columns:180px 1fr 1.4fr 40px;gap:32px;align-items:start;padding:36px 0;border-bottom:1px solid var(--line);transition:padding .35s var(--ease),background .35s}
+  .exp-row:first-child{border-top:1px solid var(--line)}
+  .exp-row:hover{padding-left:20px;background:var(--card)}
+  .exp-year{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.1em;color:var(--muted);padding-top:6px}
+  .exp-role{font-family:'Space Grotesk',sans-serif;font-size:clamp(19px,2.2vw,24px);font-weight:500;letter-spacing:-.02em}
+  .exp-co{font-size:14px;color:var(--accent);margin-top:4px}
+  .exp-desc{font-size:14px;line-height:1.6;color:var(--muted)}
+  .exp-arrow{font-size:18px;text-align:right;opacity:0;transform:translateX(-8px);transition:opacity .3s,transform .3s;color:var(--accent);padding-top:6px}
+  .exp-row:hover .exp-arrow{opacity:1;transform:translateX(0)}
+
+  /* WORK */
+  .view-all{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer;transition:color .2s;white-space:nowrap}
+  .view-all:hover{color:var(--accent)}
+  .view-all::after{content:'→';transition:transform .2s}
+  .view-all:hover::after{transform:translateX(4px)}
+  .project-row{display:grid;grid-template-columns:60px 1fr 200px 120px;gap:24px;align-items:center;padding:32px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:padding .3s var(--ease)}
+  .project-row:first-child{border-top:1px solid var(--line)}
+  .project-row:hover{padding-left:16px}
+  .project-row:hover .project-arrow{transform:translateX(8px);color:var(--accent)}
+  .project-row:hover .project-title{color:var(--accent)}
+  .project-num{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--muted)}
+  .project-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,2.5vw,28px);font-weight:500;letter-spacing:-.02em;transition:color .2s}
+  .project-tag{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+  .project-arrow{font-size:20px;text-align:right;transition:transform .3s,color .2s}
+
+  /* SHELF */
+  .shelf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .shelf-col{background:var(--bg);padding:36px 32px}
+  .shelf-col-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+  .shelf-col-head h4{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:500;display:flex;align-items:center;gap:10px}
+  .shelf-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+  .shelf-col:nth-child(2) .shelf-dot{background:var(--ink)}
+  .shelf-col:nth-child(3) .shelf-dot{background:var(--accent-2)}
+  .shelf-count{font-size:11px;letter-spacing:.15em;color:var(--muted)}
+  .shelf-item{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--line);align-items:baseline;transition:transform .3s var(--ease)}
+  .shelf-item:hover{transform:translateX(6px)}
+  .shelf-item:hover .shelf-name{color:var(--accent)}
+  .shelf-idx{font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--muted);min-width:22px}
+  .shelf-name{font-size:15px;font-weight:500;transition:color .25s}
+  .shelf-meta{font-size:13px;color:var(--muted);margin-top:2px}
+  .now-card{margin-top:32px;background:var(--accent-2);padding:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+  .now-card h5{font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;font-weight:500}
+  .now-card p{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:500}
+
+  /* FOOTER */
+  .footer{padding:80px 32px 32px;border-top:1px solid var(--line);max-width:1400px;margin:0 auto}
+  .footer-cta{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,8vw,100px);font-weight:500;letter-spacing:-.04em;line-height:1;margin-bottom:60px}
+  .footer-cta em{font-style:italic;color:var(--accent)}
+  .footer-cta a{border-bottom:2px solid var(--ink);transition:color .2s,border-color .2s}
+  .footer-cta a:hover{color:var(--accent);border-color:var(--accent)}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);flex-wrap:wrap;gap:16px}
+  .footer-socials{display:flex;gap:24px}
+  .footer-socials a:hover{color:var(--accent)}
+
+  /* PROJECTS PAGE */
+  .projects-page{padding:140px 32px 80px;max-width:1400px;margin:0 auto}
+  .projects-hero{margin-bottom:80px}
+  .projects-hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(48px,9vw,120px);font-weight:500;letter-spacing:-.04em;line-height:.95;margin-bottom:24px}
+  .projects-hero p{max-width:520px;font-size:17px;color:var(--muted)}
+  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:48px 32px}
+  .project-card{cursor:pointer;transition:transform .4s var(--ease)}
+  .project-card:hover{transform:translateY(-4px)}
+  .project-card:hover .project-card-img{transform:scale(1.03)}
+  .project-card-img-wrap{aspect-ratio:4/3;overflow:hidden;background:var(--line);margin-bottom:20px;border-radius:2px}
+  .project-card-img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+  .project-card-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+  .project-card-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:500;letter-spacing:-.02em;margin-bottom:8px;transition:color .2s}
+  .project-card:hover .project-card-title{color:var(--accent)}
+  .project-card-desc{font-size:14px;color:var(--muted);line-height:1.5}
+
+  /* PROJECT DETAIL */
+  .project-detail{padding:140px 32px 80px;max-width:1100px;margin:0 auto}
+  .back-link{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:40px;cursor:pointer;transition:color .2s}
+  .back-link:hover{color:var(--accent)}
+  .back-link::before{content:'←'}
+  .pd-header{margin-bottom:60px;padding-bottom:40px;border-bottom:1px solid var(--line)}
+  .pd-meta{display:flex;gap:32px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:24px;flex-wrap:wrap}
+  .pd-meta strong{color:var(--ink);font-weight:500;margin-left:8px}
+  .pd-header h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,7vw,80px);font-weight:500;letter-spacing:-.04em;line-height:1;margin-bottom:24px}
+  .pd-lede{font-size:clamp(18px,2vw,22px);color:var(--muted);line-height:1.5;max-width:720px}
+  .pd-hero{width:100%;aspect-ratio:16/9;object-fit:cover;margin-bottom:80px;border-radius:2px;background:var(--line)}
+  .pd-body{display:grid;grid-template-columns:1fr 2fr;gap:60px}
+  .pd-side h4{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:500}
+  .pd-side p,.pd-side ul{font-size:15px;line-height:1.6;margin-bottom:32px}
+  .pd-side ul{list-style:none}
+  .pd-side ul li{padding:8px 0;border-bottom:1px solid var(--line)}
+  .pd-content h2{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:500;letter-spacing:-.02em;margin:40px 0 16px}
+  .pd-content h2:first-child{margin-top:0}
+  .pd-content p{font-size:16px;line-height:1.7;margin-bottom:20px;color:#2a2a2a}
+  .pd-content blockquote{border-left:2px solid var(--accent);padding-left:24px;margin:32px 0;font-family:'Space Grotesk',sans-serif;font-size:22px;font-style:italic;line-height:1.4}
+  .pd-gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:40px 0}
+  .pd-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;background:var(--line)}
+  .next-project{margin-top:100px;padding-top:60px;border-top:1px solid var(--line);text-align:center;cursor:pointer}
+  .next-project span{display:block;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .next-project h3{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,56px);font-weight:500;letter-spacing:-.03em;transition:color .2s}
+  .next-project:hover h3{color:var(--accent)}
+
+  /* ADMIN — LOCK SCREEN */
+  .lock-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+  .lock-card{width:100%;max-width:400px;background:var(--ink);color:var(--bg);padding:48px 40px;border-radius:6px;text-align:center}
+  .lock-card.shake{animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+  .lock-icon{font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+  .lock-card h2{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:500;letter-spacing:-.02em;margin-bottom:8px}
+  .lock-card p{font-size:13px;color:rgba(245,243,238,.55);margin-bottom:28px}
+  .lock-card input{width:100%;background:#1c1c1c;border:1px solid #333;color:var(--bg);padding:13px 16px;font-size:14px;font-family:inherit;border-radius:3px;margin-bottom:14px;text-align:center;letter-spacing:.1em}
+  .lock-card input:focus{outline:none;border-color:var(--accent)}
+  .lock-btn{width:100%;background:var(--accent);border:none;color:#fff;padding:13px;font-size:12px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:'Space Grotesk',sans-serif;border-radius:3px;transition:background .2s}
+  .lock-btn:hover{background:#e8431a}
+  .lock-exit{display:inline-block;margin-top:24px;font-size:12px;color:rgba(245,243,238,.45);cursor:pointer;transition:color .2s}
+  .lock-exit:hover{color:var(--bg)}
+
+  /* ADMIN PANEL */
+  .admin-wrap{padding:120px 32px 100px;max-width:1100px;margin:0 auto}
+  .admin-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .admin-head h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:500;letter-spacing:-.03em}
+  .admin-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .abtn{padding:9px 16px;border:1px solid var(--ink);background:transparent;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:.2s;border-radius:2px}
+  .abtn:hover{background:var(--ink);color:var(--bg)}
+  .abtn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .abtn.primary:hover{background:#e8431a;border-color:#e8431a}
+  .admin-note{font-size:13px;color:var(--muted);max-width:640px;margin:14px 0 26px;line-height:1.6}
+  .admin-status{font-size:12px;color:var(--muted)}
+  .admin-status.dirty{color:var(--accent)}
+  .admin-tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:10px 0 32px}
+  .atab{padding:10px 18px;font-size:13px;cursor:pointer;color:var(--muted);border:1px solid transparent;margin-bottom:-1px;background:none}
+  .atab.active{color:var(--ink);border-color:var(--line);border-bottom-color:var(--bg);background:var(--card);border-radius:4px 4px 0 0;font-weight:500}
+  .acard{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:24px;margin-bottom:20px}
+  .acard-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:16px}
+  .acard-head span{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:500}
+  .acard-head .aid{font-size:11px;color:var(--muted);font-weight:400;margin-left:8px}
+  .adel{background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline}
+  .adel:hover{color:var(--accent)}
+  .arow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .arow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .afield{margin-bottom:14px}
+  .afield label{display:block;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:500}
+  .afield input,.afield textarea{width:100%;border:1px solid var(--line);background:var(--bg);padding:10px 12px;font-size:14px;font-family:inherit;border-radius:3px;color:var(--ink)}
+  .afield textarea{resize:vertical;min-height:44px}
+  .afield input:focus,.afield textarea:focus{outline:none;border-color:var(--ink)}
+  .afield small{display:block;font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+  .aadd{margin:2px 0 28px}
+  .agroup{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:500;margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+  .agroup i{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+  .toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);font-size:13px;padding:10px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:.35s var(--ease);z-index:300}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @media (max-width:960px){
+    .nav{padding:16px 20px}
+    .nav-links{display:none}
+    .menu-btn{display:block}
+    section{padding:80px 20px}
+    .hero{padding:100px 20px 60px}
+    .scroll-hint{display:none}
+    .about-grid{grid-template-columns:1fr;gap:48px}
+    .exp-row{grid-template-columns:1fr;gap:10px;padding:28px 0}
+    .exp-row:hover{padding-left:12px}
+    .exp-arrow{display:none}
+    .project-row{grid-template-columns:40px 1fr 40px;gap:16px}
+    .project-tag{display:none}
+    .shelf-grid{grid-template-columns:1fr}
+    .now-card{grid-template-columns:1fr;gap:24px}
+    .projects-page,.project-detail{padding:120px 20px 60px}
+    .projects-grid{grid-template-columns:1fr;gap:48px}
+    .pd-body{grid-template-columns:1fr;gap:32px}
+    .pd-gallery{grid-template-columns:1fr}
+    .footer{padding:60px 20px 24px}
+    .arush-intro{left:20px;top:20px}
+    .arush-progress{left:20px;right:20px;bottom:20px}
+    .timeline{padding-left:28px}
+    .edu-item::before{left:-28px}
+    .admin-wrap{padding:110px 20px 80px}
+    .arow,.arow3{grid-template-columns:1fr}
+  }
+  @media (max-width:500px){
+    .hero-meta{gap:24px}
+    .footer-bottom{flex-direction:column;align-items:flex-start}
+    .sec-head{flex-direction:column;align-items:flex-start;gap:8px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo" data-goto="top">ARUSH<span>.</span></div>
+  <div class="nav-links">
+    <a data-nav="index" data-goto="top">Index</a>
+    <a data-nav="journey" data-goto="section:sec-education">Journey</a>
+    <a data-nav="work" data-goto="projects">Work</a>
+    <a data-nav="shelf" data-goto="section:sec-shelf">Shelf</a>
+    <a id="navContact" href="mailto:hello@arush.studio">Contact</a>
+  </div>
+  <button class="menu-btn" id="menuBtn">≡</button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a data-goto="top">Index</a>
+  <a data-goto="section:sec-education">Journey</a>
+  <a data-goto="projects">Work</a>
+  <a data-goto="section:sec-shelf">Shelf</a>
+  <a id="navContactM" href="mailto:hello@arush.studio">Contact</a>
+</div>
+
+<!-- HOME -->
+<main class="view active" id="view-home">
+  <section class="hero" id="sec-hero">
+    <div class="hero-label reveal">Portfolio · 2026</div>
+    <h1 class="hero-title reveal" style="--d:.08s">Designing at the<br>edge of <span class="italic">technology</span><br>&amp; <span class="accent">business.</span></h1>
+    <p class="hero-sub reveal" style="--d:.16s" id="heroSub"></p>
+    <div class="hero-meta reveal" style="--d:.24s" id="heroMeta"></div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <div class="arush-section" id="arushSection">
+    <div class="arush-sticky">
+      <div class="arush-intro" id="arushIntro">A name. A manifesto.</div>
+      <div class="arush-stage">
+        <div class="arush-letters">
+          <span class="arush-letter">A</span><span class="arush-letter">R</span><span class="arush-letter">U</span><span class="arush-letter">S</span><span class="arush-letter">H</span>
+        </div>
+        <div class="arush-meaning" id="arushMeaning">&nbsp;</div>
+      </div>
+      <div class="arush-progress"><span id="arushCounter">00 / 05</span><span>ARUSH</span></div>
+      <div class="arush-progress-bar" id="arushBar"></div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marqueeTrack"></div></div>
+
+  <section id="sec-about">
+    <div class="sec-head"><h3 class="reveal">About.</h3><div class="sec-label reveal" style="--d:.1s">( 01 — Who )</div></div>
+    <div class="rule"></div>
+    <div class="about-grid" style="margin-top:60px">
+      <p class="about-text reveal" id="aboutText"></p>
+      <div class="about-details" id="aboutDetails"></div>
+    </div>
+  </section>
+
+  <section id="sec-education">
+    <div class="sec-head"><h3 class="reveal">Education.</h3><div class="sec-label reveal" style="--d:.1s">( 02 — Learned )</div></div>
+    <div class="rule"></div>
+    <p class="sec-intro reveal" style="--d:.15s">Formal degrees, informal obsessions. Both taught me roughly the same thing: learn the system, then redesign it.</p>
+    <div class="timeline" id="eduList"><div class="tl-line"></div></div>
+  </section>
+
+  <section id="sec-experience">
+    <div class="sec-head"><h3 class="reveal">Experience.</h3><div class="sec-label reveal" style="--d:.1s">( 03 — Done )</div></div>
+    <div class="rule"></div>
+    <p class="sec-intro reveal" style="--d:.15s">A short history of rooms where I learned to ship — from freelance desks to Series A war rooms.</p>
+    <div id="expList"></div>
+  </section>
+
+  <section id="sec-work">
+    <div class="sec-head"><h3 class="reveal">Selected work.</h3><div class="view-all reveal" style="--d:.1s" data-goto="projects">All projects</div></div>
+    <div class="rule"></div>
+    <p class="sec-intro reveal" style="--d:.15s">Case studies across product, brand and strategy. Each one is a window into how I think — tap any row for the full story.</p>
+    <div id="workList"></div>
+  </section>
+
+  <section id="sec-shelf">
+    <div class="sec-head"><h3 class="reveal">The Shelf.</h3><div class="sec-label reveal" style="--d:.1s">( 05 — Fuel )</div></div>
+    <div class="rule"></div>
+    <p class="sec-intro reveal" style="--d:.15s">What goes in, comes out as work. The books, voices and records on permanent rotation.</p>
+    <div class="shelf-grid" id="shelfGrid"></div>
+    <div class="now-card reveal" id="nowCard"></div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-cta reveal">Have an idea worth<br><em>building?</em> <a id="footerEmail" href="mailto:hello@arush.studio">Let's talk →</a></div>
+    <div class="footer-bottom">
+      <div>© 2026 Arush. Crafted with intention.</div>
+      <div class="footer-socials" id="footerSocials"></div>
+    </div>
+  </footer>
+</main>
+
+<!-- PROJECTS -->
+<main class="view" id="view-projects">
+  <section class="projects-page">
+    <div class="projects-hero">
+      <div class="sec-label reveal">( Work — Index )</div>
+      <h1 class="reveal" style="--d:.08s">Selected<br>projects.</h1>
+      <p class="reveal" style="--d:.16s">A collection of product, brand and strategy work across AI, design systems and early-stage ventures. Each case study is a window into how I think.</p>
+    </div>
+    <div class="projects-grid" id="projectsGrid"></div>
+  </section>
+</main>
+
+<!-- PROJECT DETAIL -->
+<main class="view" id="view-project">
+  <section class="project-detail" id="projectDetail"></section>
+</main>
+
+<!-- ADMIN: LOCK + PANEL -->
+<main class="view" id="view-admin">
+  <div class="lock-wrap" id="adminLock">
+    <div class="lock-card" id="lockCard">
+      <div class="lock-icon">🔒 Restricted</div>
+      <h2>Content Studio</h2>
+      <p>This area is private. Enter the admin password to continue.</p>
+      <input type="password" id="lockPass" placeholder="Password" autocomplete="off" />
+      <button class="lock-btn" id="unlockBtn">Unlock</button>
+      <span class="lock-exit" data-goto="home">← Back to site</span>
+    </div>
+  </div>
+
+  <div class="admin-wrap" id="adminPanel" style="display:none">
+    <div class="admin-head">
+      <h1>Content studio.</h1>
+      <div class="admin-bar">
+        <button class="abtn" data-act="view">View site</button>
+        <button class="abtn" data-act="export">Export JSON</button>
+        <button class="abtn" data-act="import">Import JSON</button>
+        <button class="abtn" data-act="reset">Reset</button>
+        <button class="abtn" data-act="lock">Lock</button>
+        <button class="abtn primary" data-act="save">Save</button>
+      </div>
+    </div>
+    <p class="admin-note">Edit anything below — changes auto-save to this browser and update the site instantly. Use <b>Export JSON</b> to back up your content or paste it over <code>DEFAULT_DATA</code> in the file to ship it permanently. <b>Import JSON</b> restores a backup.</p>
+    <div class="admin-status" id="adminStatus">All changes saved</div>
+    <div class="admin-tabs" id="adminTabs"></div>
+    <div id="adminBody"></div>
+    <input type="file" id="importFile" accept="application/json" style="display:none" />
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   1. THE DATABASE — edit via #/admin (password protected)
+   ========================================================= */
+const FALLBACK_IMG = 'https://image.qwenlm.ai/public_source/22475f95-e56a-458b-9fb0-e742ab3fe97b/169c4f7ae-7501-48fe-b6fa-0271af138395.png';
+const IMG = {
+  lumen:    'https://image.qwenlm.ai/public_source/22475f95-e56a-458b-9fb0-e742ab3fe97b/173b2c66b-74b3-4143-a473-17736cf6ac5e.png',
+  forma:    'https://image.qwenlm.ai/public_source/22475f95-e56a-458b-9fb0-e742ab3fe97b/134192d6c-f8ca-4ade-af25-c22acd265557.png',
+  relay:    'https://image.qwenlm.ai/public_source/22475f95-e56a-458b-9fb0-e742ab3fe97b/1b742a797-1c64-4aa5-b57d-b54789ae92de.png',
+  north:    'https://image.qwenlm.ai/public_source/22475f95-e56a-458b-9fb0-e742ab3fe97b/15170c653-dd8d-4e47-a310-14bf62e311a3.png',
+  kindling: 'https://image.qwenlm.ai/public_source/22475f95-e56a-458b-9fb0-e742ab3fe97b/15479327e-9021-4c98-838d-61735f35a874.png',
+  atlas:    'https://image.qwenlm.ai/public_source/22475f95-e56a-458b-9fb0-e742ab3fe97b/140ee7e23-4c56-488d-bfca-1600b64287dd.png'
+};
+
+const DEFAULT_DATA = {
+  basics: {
+    email: 'hello@arush.studio',
+    heroSub: "I'm Arush — a multidisciplinary operator building products, brands and systems where design, AI and strategy converge. Currently exploring the intersection of intelligent tools and human-centered outcomes.",
+    meta: [
+      { k: 'Based in', v: 'India · Remote' },
+      { k: 'Focus', v: 'Design × AI × Strategy' },
+      { k: 'Status', v: 'Open to collab' }
+    ],
+    aboutText: 'I work across <em>design</em>, <em>technology</em> and <em>business</em> — not as separate disciplines, but as one continuous practice. The best outcomes come from holding all three at once.',
+    aboutDetails: [
+      { h: 'Practice', p: 'Product design, brand systems, AI prototyping, go-to-market strategy — and the occasional deep-dive into code when the idea demands it.' },
+      { h: 'Approach', p: 'Start with the problem. Shape it with design. Validate it with data. Ship it with craft. Repeat until it matters.' },
+      { h: 'Currently', p: 'Exploring how small teams can use AI to do the work of large ones — and how design keeps it humane.' }
+    ],
+    socials: [
+      { label: 'Twitter', url: '#' }, { label: 'LinkedIn', url: '#' },
+      { label: 'GitHub', url: '#' }, { label: 'Read.cv', url: '#' }
+    ]
+  },
+  education: [
+    { year: '2022 — 2026', title: 'B.Tech, Computer Science & Engineering', place: 'Indian Institute of Technology, Delhi',
+      desc: 'Focus on human-computer interaction and machine-learning electives — plus far too many design-society posters. Led the campus design club and built tools students still use today.',
+      tags: ['HCI', 'Machine Learning', 'Design Club Lead'] },
+    { year: '2020 — 2022', title: 'Senior Secondary, Science & Mathematics', place: 'Delhi Public School, R.K. Puram',
+      desc: 'Where the obsession with systems began — physics problems by day, Photoshop by night. First "client" was the school theatre society; first launch was a ticketing spreadsheet that accidentally worked.',
+      tags: ['Physics', 'Mathematics', 'Theatre Tech'] },
+    { year: 'Ongoing', title: 'Self-directed learning', place: 'Everywhere with a good teacher',
+      desc: "IDEO U Design Thinking, DeepLearning.AI short courses, and one standing rule: master exactly one new tool every quarter. Current quarter's tool: agent orchestration frameworks.",
+      tags: ['Design Thinking', 'AI Courses', '1 Tool / Quarter'] }
+  ],
+  experience: [
+    { year: '2026 — Present', role: 'Founder & Principal', company: 'Studio Arush · Independent',
+      desc: 'Design, AI and strategy practice for early-stage teams. From brand systems to shipped product — solo, or with a trusted bench of collaborators.' },
+    { year: '2025 — 2026', role: 'Product Design Associate', company: 'Relay · Series A, Singapore',
+      desc: 'Owned the core operations workflow redesign. Cut time-per-order by 38% and halved support tickets on the platform’s busiest flows.' },
+    { year: '2024 — 2025', role: 'Strategy Intern', company: 'North Capital · Venture',
+      desc: "Market mapping and positioning for climate-tech investments. Wrote the fund's public thesis and its most-shared web page." },
+    { year: '2023 — 2024', role: 'Freelance Designer & Developer', company: 'Various · Studios, cafés, one bookstore',
+      desc: 'Brand identities and websites for small businesses learning to look like themselves. Learned scope, invoices and taste — in that order.' }
+  ],
+  projects: [
+    { id: 'lumen', title: 'Lumen AI', tag: 'Product · AI', year: '2026', role: 'Design & Strategy', client: 'Stealth Startup', duration: '6 months',
+      lede: 'An AI copilot for founders — turning messy notes into structured strategy docs, pitch decks and investor updates.',
+      image: IMG.lumen, gallery: [IMG.relay, IMG.atlas],
+      sections: [
+        { t: 'h2', x: 'The problem' },
+        { t: 'p', x: 'Founders drown in context. Conversations in Slack, notes in Notion, metrics in spreadsheets — none of it talks to each other. Every time they need to write an update or a deck, they start from scratch.' },
+        { t: 'p', x: 'We set out to build a tool that could hold all of that context and produce thoughtful, on-brand output in seconds.' },
+        { t: 'q', x: "The best AI tools don't replace thinking — they remove the friction between thinking and shipping." },
+        { t: 'h2', x: 'The approach' },
+        { t: 'p', x: "We designed Lumen around three principles: context-first (ingest everything), taste-preserving (learn the founder's voice), and output-agnostic (deck, email, memo, thread — same truth)." },
+        { t: 'p', x: 'The interface is deliberately quiet. No chat bubbles, no gimmicks. Just a canvas that knows what you’re working on and offers the right move at the right time.' },
+        { t: 'h2', x: 'Outcome' },
+        { t: 'p', x: 'Beta with 40 founders. 3.2x reduction in time spent on investor updates. 92% weekly retention over 8 weeks. Raised a pre-seed round based on the product itself.' }
+      ] },
+    { id: 'forma', title: 'Forma Studio', tag: 'Brand · Identity', year: '2025', role: 'Brand Design', client: 'Forma Architecture', duration: '3 months',
+      lede: 'A complete identity system for an architecture studio building thoughtful, human-scaled homes in the Himalayas.',
+      image: IMG.forma, gallery: [IMG.kindling, FALLBACK_IMG],
+      sections: [
+        { t: 'h2', x: 'Brief' },
+        { t: 'p', x: 'Forma needed an identity that felt as considered as their buildings — quiet, material, rooted in place. Not another minimalist architecture brand.' },
+        { t: 'h2', x: 'System' },
+        { t: 'p', x: 'We built a flexible system around a custom wordmark, a palette drawn from stone and timber, and a grid that breathes. Every touchpoint — from business cards to site signage — uses the same underlying rhythm.' },
+        { t: 'q', x: 'Identity is not decoration. It is the argument a company makes about itself, repeated until it becomes true.' },
+        { t: 'h2', x: 'Deliverables' },
+        { t: 'p', x: 'Wordmark, type system, color, grid, photography direction, stationery, site signage, website, and a 60-page brand book.' }
+      ] },
+    { id: 'relay', title: 'Relay Ops', tag: 'Product · SaaS', year: '2025', role: 'Product Design', client: 'Relay (Series A)', duration: '4 months',
+      lede: 'Redesigning the core workflow of an operations platform used by 200+ D2C brands across Southeast Asia.',
+      image: IMG.relay, gallery: [IMG.atlas, IMG.lumen],
+      sections: [
+        { t: 'h2', x: 'The challenge' },
+        { t: 'p', x: 'Relay had grown fast. Features stacked on features. The core workflow — receiving, sorting, shipping — had become a maze. Support tickets were up 40%. Churn was creeping in.' },
+        { t: 'h2', x: 'What we did' },
+        { t: 'p', x: 'We shadowed warehouse operators for two weeks. Mapped every click. Cut the interface in half. Introduced a single "today" view that replaced six separate screens.' },
+        { t: 'q', x: 'Complexity is easy. Simplicity, earned.' },
+        { t: 'h2', x: 'Results' },
+        { t: 'p', x: '38% reduction in time-per-order. 52% drop in support tickets on core flows. NPS moved from 31 to 58 in one quarter.' }
+      ] },
+    { id: 'north', title: 'North Capital', tag: 'Strategy · Web', year: '2024', role: 'Strategy & Design', client: 'North Ventures', duration: '2 months',
+      lede: 'Positioning and website for an early-stage VC fund writing the first checks into climate-tech across South Asia.',
+      image: IMG.north, gallery: [IMG.forma, IMG.kindling],
+      sections: [
+        { t: 'h2', x: 'Positioning' },
+        { t: 'p', x: 'Most climate funds in the region position themselves as "impact-first." North wanted to be honest: returns-first, climate-aligned. We built the narrative around that conviction.' },
+        { t: 'h2', x: 'Website' },
+        { t: 'p', x: 'A single-page site that does one thing well — tells founders exactly what North writes, how, and why. No jargon. No stock photos. Just clarity.' },
+        { t: 'q', x: 'The best fund websites are the ones founders actually read.' },
+        { t: 'h2', x: 'Impact' },
+        { t: 'p', x: "Inbound deal flow up 2.5x in 90 days. The site is now the fund's most-shared asset on founder Twitter." }
+      ] },
+    { id: 'kindling', title: 'Kindling', tag: 'Experiment · Writing', year: '2024', role: 'Author', client: 'Personal', duration: 'Ongoing',
+      lede: 'A weekly newsletter on craft, tools, and the practice of building things that matter — read by 4,000+ designers and founders.',
+      image: IMG.kindling, gallery: [IMG.forma, FALLBACK_IMG],
+      sections: [
+        { t: 'h2', x: 'Why' },
+        { t: 'p', x: "I write to think. The newsletter is the public version of that practice — a way to share the questions I'm sitting with, the tools I'm learning, and the work I admire." },
+        { t: 'h2', x: 'Format' },
+        { t: 'p', x: 'Short. One idea per issue. No growth hacks, no "10 tools you need." Just honest writing about the practice of making things.' },
+        { t: 'q', x: 'Writing is the original AI prompt — a way of forcing clarity out of fog.' },
+        { t: 'h2', x: 'Archive' },
+        { t: 'p', x: '80+ issues. A few have been republished by Dense Discovery, Sidebar, and The Prepared.' }
+      ] },
+    { id: 'atlas', title: 'Atlas OS', tag: 'Product · Design System', year: '2023', role: 'Design Systems', client: 'Internal', duration: '8 months',
+      lede: 'An open design system and component library used across three products and a dozen internal tools.',
+      image: IMG.atlas, gallery: [IMG.relay, IMG.lumen],
+      sections: [
+        { t: 'h2', x: 'Motivation' },
+        { t: 'p', x: 'Three products. Three design languages. Three component libraries. We were rebuilding the same button for the fifth time. Atlas was the answer.' },
+        { t: 'h2', x: 'Principles' },
+        { t: 'p', x: 'Composable over configurable. Opinionated by default. Documented like a product, not a wiki.' },
+        { t: 'q', x: 'A design system is a promise — that the next thing you build will start from a higher floor.' },
+        { t: 'h2', x: 'Outcome' },
+        { t: 'p', x: 'Adopted across all three product teams. New feature time-to-ship down ~30%. The onboarding doc is now the most-read internal page.' }
+      ] }
+  ],
+  shelf: {
+    books: [
+      { name: 'The Design of Everyday Things', meta: 'Don Norman · why doors confuse us' },
+      { name: 'Thinking in Systems', meta: 'Donella Meadows · the lens for everything' },
+      { name: 'Zero to One', meta: 'Peter Thiel · contrarian, on purpose' },
+      { name: 'The Creative Act', meta: 'Rick Rubin · re-read every January' },
+      { name: 'Shape Up', meta: 'Ryan Singer · how shipping should feel' }
+    ],
+    podcasts: [
+      { name: "Lenny's Podcast", meta: 'Product & growth, minus the fluff' },
+      { name: 'Design Better', meta: 'Craft, process, and the people side' },
+      { name: 'Acquired', meta: 'Business history as epic theatre' },
+      { name: 'Latent Space', meta: 'AI engineering, actually explained' }
+    ],
+    music: [
+      { name: 'Migration — Bonobo', meta: 'Deep-work default since 2017' },
+      { name: 'Interstellar OST — Hans Zimmer', meta: 'For deadlines that feel like orbits' },
+      { name: 'Mordechai — Khruangbin', meta: 'Friday-afternoon records' },
+      { name: 'Rockstar OST — A.R. Rahman', meta: 'Home, in album form' },
+      { name: 'Elements — Ludovico Einaudi', meta: 'Writing weather' }
+    ],
+    now: {
+      reading: 'The Creative Act — Rick Rubin (second pass)',
+      listening: 'Latent Space · ep. on agent orchestration',
+      building: 'A tiny AI reading companion for this shelf'
+    }
+  }
+};
+
+/* =========================================================
+   2. STORAGE + AUTH
+   ========================================================= */
+const LS_KEY = 'arush_site_data_v1';
+const PASS_KEY = 'arush_admin_pass_hash';
+const AUTH_KEY = 'arush_admin_auth';
+/* SHA-256 of the default password "arush-admin" — change it in Admin → Security */
+const DEFAULT_PASS_HASH = '83dca26165cdfff96f94895689f2a7934352705e2c35ce4b34e6c626c39c85f2';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function getPassHash() { return localStorage.getItem(PASS_KEY) || DEFAULT_PASS_HASH; }
+function isAuthenticated() { return sessionStorage.getItem(AUTH_KEY) === '1'; }
+
+let DATA = loadData();
+function loadData() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      const merged = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      Object.keys(DEFAULT_DATA).forEach(k => { if (saved[k] !== undefined) merged[k] = saved[k]; });
+      return merged;
+    }
+  } catch (e) { console.warn('Data load failed, using defaults.', e); }
+  return JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+let saveTimer = null;
+function persist(showToastFlag) {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(DATA)); } catch (e) {}
+    const st = document.getElementById('adminStatus');
+    if (st) { st.textContent = 'All changes saved · ' + new Date().toLocaleTimeString(); st.classList.remove('dirty'); }
+    if (showToastFlag) toast('Saved to this browser');
+  }, 350);
+  const st2 = document.getElementById('adminStatus');
+  if (st2) { st2.textContent = 'Saving…'; st2.classList.add('dirty'); }
+}
+
+/* =========================================================
+   3. HELPERS
+   ========================================================= */
+function escHtml(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function escAttr(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function setPath(obj, path, val) {
+  const keys = path.replace(/\[(\d+)\]/g, '.$1').split('.');
+  let cur = obj;
+  for (let i = 0; i < keys.length - 1; i++) cur = cur[keys[i]];
+  cur[keys[keys.length - 1]] = val;
+}
+function parseSections(txt) {
+  return String(txt).split(/\n\s*\n/).map(b => {
+    const s = b.trim(); if (!s) return null;
+    if (s.indexOf('## ') === 0) return { t: 'h2', x: s.slice(3).trim() };
+    if (s.indexOf('> ') === 0) return { t: 'q', x: s.slice(2).trim() };
+    return { t: 'p', x: s.replace(/\s*\n\s*/g, ' ') };
+  }).filter(Boolean);
+}
+function serializeSections(arr) {
+  return (arr || []).map(s => s.t === 'h2' ? '## ' + s.x : s.t === 'q' ? '> ' + s.x : s.x).join('\n\n');
+}
+let toastTimer = null;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* =========================================================
+   4. PUBLIC RENDERING
+   ========================================================= */
+function renderHome() {
+  const B = DATA.basics;
+  document.getElementById('heroSub').textContent = B.heroSub;
+  document.getElementById('heroMeta').innerHTML = (B.meta || []).map(m =>
+    '<div>' + escHtml(m.k) + '<strong>' + escHtml(m.v) + '</strong></div>').join('');
+  document.getElementById('aboutText').innerHTML = B.aboutText;
+  document.getElementById('aboutDetails').innerHTML = (B.aboutDetails || []).map((d, i) =>
+    '<div class="about-detail reveal" style="--d:' + (0.1 + i * 0.1) + 's"><h4>' + escHtml(d.h) + '</h4><p>' + escHtml(d.p) + '</p></div>').join('');
+
+  document.getElementById('eduList').innerHTML = '<div class="tl-line"></div>' + (DATA.education || []).map((e, i) =>
+    '<div class="edu-item reveal" style="--d:' + (i * 0.08) + 's">' +
+      '<div class="edu-year">' + escHtml(e.year) + '</div>' +
+      '<div class="edu-title">' + escHtml(e.title) + '</div>' +
+      '<div class="edu-place">' + escHtml(e.place) + '</div>' +
+      '<p class="edu-desc">' + escHtml(e.desc) + '</p>' +
+      ((e.tags && e.tags.length) ? '<div class="edu-tags">' + e.tags.map(t => '<span>' + escHtml(t) + '</span>').join('') + '</div>' : '') +
+    '</div>').join('');
+
+  document.getElementById('expList').innerHTML = (DATA.experience || []).map((x, i) =>
+    '<div class="exp-row reveal" style="--d:' + (i * 0.07) + 's">' +
+      '<div class="exp-year">' + escHtml(x.year) + '</div>' +
+      '<div><div class="exp-role">' + escHtml(x.role) + '</div><div class="exp-co">' + escHtml(x.company) + '</div></div>' +
+      '<div class="exp-desc">' + escHtml(x.desc) + '</div>' +
+      '<div class="exp-arrow">→</div>' +
+    '</div>').join('');
+
+  document.getElementById('workList').innerHTML = (DATA.projects || []).slice(0, 5).map((p, i) =>
+    '<div class="project-row reveal" style="--d:' + (i * 0.06) + 's" data-goto="project:' + escAttr(p.id) + '">' +
+      '<div class="project-num">0' + (i + 1) + '</div>' +
+      '<div class="project-title">' + escHtml(p.title) + '</div>' +
+      '<div class="project-tag">' + escHtml(p.tag) + '</div>' +
+      '<div class="project-arrow">→</div>' +
+    '</div>').join('');
+
+  const S = DATA.shelf || { books: [], podcasts: [], music: [], now: {} };
+  const col = (title, items, d) =>
+    '<div class="shelf-col reveal" style="--d:' + d + 's"><div class="shelf-col-head"><h4><span class="shelf-dot"></span>' + title + '</h4><span class="shelf-count">0' + items.length + '</span></div>' +
+    items.map((it, i) =>
+      '<div class="shelf-item"><span class="shelf-idx">0' + (i + 1) + '</span><div><div class="shelf-name">' + escHtml(it.name) + '</div><div class="shelf-meta">' + escHtml(it.meta) + '</div></div></div>'
+    ).join('') + '</div>';
+  document.getElementById('shelfGrid').innerHTML = col('Books', S.books || [], 0) + col('Podcasts', S.podcasts || [], 0.1) + col('Music', S.music || [], 0.2);
+  const now = S.now || {};
+  document.getElementById('nowCard').innerHTML =
+    '<div><h5>Currently reading</h5><p>' + escHtml(now.reading) + '</p></div>' +
+    '<div><h5>Currently listening</h5><p>' + escHtml(now.listening) + '</p></div>' +
+    '<div><h5>Currently building</h5><p>' + escHtml(now.building) + '</p></div>';
+
+  document.getElementById('footerEmail').href = 'mailto:' + B.email;
+  document.getElementById('navContact').href = 'mailto:' + B.email;
+  document.getElementById('navContactM').href = 'mailto:' + B.email;
+  document.getElementById('footerSocials').innerHTML = (B.socials || []).map(s =>
+    '<a href="' + escAttr(s.url) + '" target="_blank" rel="noopener">' + escHtml(s.label) + '</a>').join('');
+}
+
+function renderProjectsGrid() {
+  document.getElementById('projectsGrid').innerHTML = (DATA.projects || []).map((p, i) =>
+    '<div class="project-card reveal" style="--d:' + ((i % 2) * 0.1) + 's" data-goto="project:' + escAttr(p.id) + '">' +
+      '<div class="project-card-img-wrap"><img class="project-card-img" src="' + escAttr(p.image || FALLBACK_IMG) + '" alt="' + escAttr(p.title) + '" loading="lazy"></div>' +
+      '<div class="project-card-meta"><span>' + escHtml(p.tag) + '</span><span>' + escHtml(p.year) + '</span></div>' +
+      '<div class="project-card-title">' + escHtml(p.title) + '</div>' +
+      '<div class="project-card-desc">' + escHtml(p.lede) + '</div>' +
+    '</div>').join('');
+}
+
+function renderProjectDetail(id) {
+  const list = DATA.projects || [];
+  const p = list.find(x => x.id === id);
+  if (!p) { navigate('projects'); return; }
+  const idx = list.indexOf(p);
+  const next = list[(idx + 1) % list.length];
+  const body = (p.sections || []).map(s =>
+    s.t === 'h2' ? '<h2>' + escHtml(s.x) + '</h2>' :
+    s.t === 'q' ? '<blockquote>' + escHtml(s.x) + '</blockquote>' :
+    '<p>' + escHtml(s.x) + '</p>').join('');
+  const gallery = (p.gallery || []).filter(Boolean).map(u => '<img src="' + escAttr(u) + '" alt="" loading="lazy">').join('');
+
+  document.getElementById('projectDetail').innerHTML =
+    '<a class="back-link reveal" data-goto="projects">All projects</a>' +
+    '<div class="pd-header">' +
+      '<div class="pd-meta reveal">' +
+        '<span>Role<strong>' + escHtml(p.role) + '</strong></span>' +
+        '<span>Client<strong>' + escHtml(p.client) + '</strong></span>' +
+        '<span>Year<strong>' + escHtml(p.year) + '</strong></span>' +
+        '<span>Duration<strong>' + escHtml(p.duration) + '</strong></span>' +
+      '</div>' +
+      '<h1 class="reveal" style="--d:.08s">' + escHtml(p.title) + '</h1>' +
+      '<p class="pd-lede reveal" style="--d:.16s">' + escHtml(p.lede) + '</p>' +
+    '</div>' +
+    '<img class="pd-hero reveal" src="' + escAttr(p.image || FALLBACK_IMG) + '" alt="' + escAttr(p.title) + '">' +
+    '<div class="pd-body">' +
+      '<aside class="pd-side reveal">' +
+        '<h4>At a glance</h4><p>' + escHtml(p.lede) + '</p>' +
+        '<h4>Engagement</h4><ul><li>' + escHtml(p.role) + '</li><li>' + escHtml(p.client) + '</li><li>' + escHtml(p.year) + ' · ' + escHtml(p.duration) + '</li></ul>' +
+        '<h4>Discipline</h4><p>' + escHtml(p.tag) + '</p>' +
+      '</aside>' +
+      '<div class="pd-content reveal" style="--d:.1s">' + body +
+        (gallery ? '<div class="pd-gallery">' + gallery + '</div>' : '') +
+      '</div>' +
+    '</div>' +
+    '<div class="next-project reveal" data-goto="project:' + escAttr(next.id) + '">' +
+      '<span>Next project</span><h3>' + escHtml(next.title) + ' →</h3>' +
+    '</div>';
+}
+
+/* =========================================================
+   5. ADMIN (CONTENT STUDIO) — behind password lock
+   ========================================================= */
+function showAdminLock() {
+  document.getElementById('adminLock').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+  setTimeout(() => document.getElementById('lockPass').focus(), 300);
+}
+function showAdminPanel() {
+  document.getElementById('adminLock').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  renderAdmin();
+}
+async function tryUnlock() {
+  const inp = document.getElementById('lockPass');
+  const h = await sha256(inp.value);
+  if (h === getPassHash()) {
+    sessionStorage.setItem(AUTH_KEY, '1');
+    inp.value = '';
+    showAdminPanel();
+    toast('Welcome back');
+  } else {
+    const card = document.getElementById('lockCard');
+    card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+    inp.value = '';
+    inp.focus();
+  }
+}
+document.getElementById('unlockBtn').addEventListener('click', tryUnlock);
+document.getElementById('lockPass').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+let adminTab = 'basics';
+const TABS = [
+  { id: 'basics', label: 'Basics' }, { id: 'education', label: 'Education' },
+  { id: 'experience', label: 'Experience' }, { id: 'projects', label: 'Projects' },
+  { id: 'shelf', label: 'Shelf' }, { id: 'security', label: 'Security' }
+];
+function fld(label, path, value, opts) {
+  const o = Object.assign({ area: false, rows: 3, dtype: 'text', hint: '' }, opts || {});
+  const ctrl = o.area
+    ? '<textarea data-path="' + path + '" data-type="' + o.dtype + '" rows="' + o.rows + '">' + escHtml(value) + '</textarea>'
+    : '<input data-path="' + path + '" data-type="' + o.dtype + '" value="' + escAttr(value) + '">';
+  return '<div class="afield"><label>' + escHtml(label) + '</label>' + ctrl + (o.hint ? '<small>' + o.hint + '</small>' : '') + '</div>';
+}
+function cardHead(title, idNote, delAttr) {
+  return '<div class="acard-head"><span>' + escHtml(title) + (idNote ? '<span class="aid">/' + escHtml(idNote) + '</span>' : '') + '</span>' +
+    (delAttr ? '<button class="adel" data-del="' + delAttr + '">Remove</button>' : '') + '</div>';
+}
+function addBtn(collection, label) {
+  return '<button class="abtn aadd" data-add="' + collection + '">+ ' + label + '</button>';
+}
+function adminBasics() {
+  const B = DATA.basics;
+  let h = '<div class="acard">' + cardHead('Identity & hero') +
+    '<div class="arow">' + fld('Email', 'basics.email', B.email) + fld('Hero intro paragraph', 'basics.heroSub', B.heroSub, { area: true, rows: 4 }) + '</div></div>';
+  h += '<div class="agroup"><i></i>Hero meta</div>' + (B.meta || []).map((m, i) =>
+    '<div class="acard">' + cardHead('Meta ' + (i + 1), '', 'basics.meta:' + i) +
+    '<div class="arow">' + fld('Label', 'basics.meta[' + i + '].k', m.k) + fld('Value', 'basics.meta[' + i + '].v', m.v) + '</div></div>').join('') +
+    addBtn('basics.meta', 'Add meta item');
+  h += '<div class="acard">' + cardHead('About paragraph') + fld('About text', 'basics.aboutText', B.aboutText, { area: true, rows: 4, hint: 'HTML allowed — wrap words in &lt;em&gt;…&lt;/em&gt; for the coral italic accent.' }) + '</div>';
+  h += '<div class="agroup"><i></i>About details</div>' + (B.aboutDetails || []).map((d, i) =>
+    '<div class="acard">' + cardHead('Detail ' + (i + 1), '', 'basics.aboutDetails:' + i) +
+    fld('Heading', 'basics.aboutDetails[' + i + '].h', d.h) +
+    fld('Text', 'basics.aboutDetails[' + i + '].p', d.p, { area: true, rows: 3 }) + '</div>').join('') +
+    addBtn('basics.aboutDetails', 'Add detail');
+  h += '<div class="agroup"><i></i>Social links</div>' + (B.socials || []).map((s, i) =>
+    '<div class="acard">' + cardHead('Link ' + (i + 1), '', 'basics.socials:' + i) +
+    '<div class="arow">' + fld('Label', 'basics.socials[' + i + '].label', s.label) + fld('URL', 'basics.socials[' + i + '].url', s.url) + '</div></div>').join('') +
+    addBtn('basics.socials', 'Add link');
+  return h;
+}
+function adminEducation() {
+  return (DATA.education || []).map((e, i) =>
+    '<div class="acard">' + cardHead(e.title || 'Education ' + (i + 1), '', 'education:' + i) +
+    '<div class="arow">' + fld('Years', 'education[' + i + '].year', e.year) + fld('Place / institution', 'education[' + i + '].place', e.place) + '</div>' +
+    fld('Degree / title', 'education[' + i + '].title', e.title) +
+    fld('Description', 'education[' + i + '].desc', e.desc, { area: true, rows: 3 }) +
+    fld('Tags (comma separated)', 'education[' + i + '].tags', (e.tags || []).join(', '), { dtype: 'tags' }) +
+    '</div>').join('') + addBtn('education', 'Add education');
+}
+function adminExperience() {
+  return (DATA.experience || []).map((x, i) =>
+    '<div class="acard">' + cardHead(x.role || 'Role ' + (i + 1), '', 'experience:' + i) +
+    '<div class="arow">' + fld('Years', 'experience[' + i + '].year', x.year) + fld('Company', 'experience[' + i + '].company', x.company) + '</div>' +
+    fld('Role', 'experience[' + i + '].role', x.role) +
+    fld('Description', 'experience[' + i + '].desc', x.desc, { area: true, rows: 3 }) +
+    '</div>').join('') + addBtn('experience', 'Add experience');
+}
+function adminProjects() {
+  return (DATA.projects || []).map((p, i) =>
+    '<div class="acard">' + cardHead(p.title || 'Project ' + (i + 1), p.id, 'projects:' + i) +
+    '<div class="arow">' + fld('Title', 'projects[' + i + '].title', p.title) + fld('Tag (e.g. Product · AI)', 'projects[' + i + '].tag', p.tag) + '</div>' +
+    '<div class="arow3">' + fld('Year', 'projects[' + i + '].year', p.year) + fld('Role', 'projects[' + i + '].role', p.role) + fld('Duration', 'projects[' + i + '].duration', p.duration) + '</div>' +
+    fld('Client', 'projects[' + i + '].client', p.client) +
+    fld('One-line summary', 'projects[' + i + '].lede', p.lede, { area: true, rows: 2 }) +
+    fld('Cover image URL', 'projects[' + i + '].image', p.image) +
+    fld('Gallery image URLs (one per line)', 'projects[' + i + '].gallery', (p.gallery || []).join('\n'), { area: true, rows: 3, dtype: 'list' }) +
+    fld('Case study body', 'projects[' + i + '].sections', serializeSections(p.sections), { area: true, rows: 12, dtype: 'sections',
+      hint: 'Format — blank line between blocks. “## Heading” = section title · “&gt; Quote” = pull-quote · plain text = paragraph.' }) +
+    '</div>').join('') + addBtn('projects', 'Add project');
+}
+function adminShelf() {
+  const S = DATA.shelf;
+  let h = '';
+  ['books', 'podcasts', 'music'].forEach(key => {
+    h += '<div class="agroup"><i></i>' + key.charAt(0).toUpperCase() + key.slice(1) + '</div>';
+    h += (S[key] || []).map((it, i) =>
+      '<div class="acard">' + cardHead(it.name || 'Item ' + (i + 1), '', 'shelf.' + key + ':' + i) +
+      '<div class="arow">' + fld('Name', 'shelf.' + key + '[' + i + '].name', it.name) + fld('Note', 'shelf.' + key + '[' + i + '].meta', it.meta) + '</div></div>').join('');
+    h += addBtn('shelf.' + key, 'Add to ' + key);
+  });
+  const now = S.now || {};
+  h += '<div class="agroup"><i></i>Currently</div><div class="acard">' + cardHead('Now card') +
+    fld('Reading', 'shelf.now.reading', now.reading) +
+    fld('Listening', 'shelf.now.listening', now.listening) +
+    fld('Building', 'shelf.now.building', now.building) + '</div>';
+  return h;
+}
+function adminSecurity() {
+  return '<div class="acard">' + cardHead('Admin password') +
+    '<p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6">The public site shows no edit link. The studio is reachable only via <b>#/admin</b> and requires this password. It is stored as a SHA-256 hash in this browser. If you forget it, clear site data or reset <code>PASS_KEY</code> in localStorage to return to the default.</p>' +
+    '<div class="arow">' +
+      '<div class="afield"><label>New password</label><input type="password" id="newPass" autocomplete="new-password"></div>' +
+      '<div class="afield"><label>Confirm new password</label><input type="password" id="confPass" autocomplete="new-password"></div>' +
+    '</div>' +
+    '<button class="abtn primary" data-act="changepass">Update password</button>' +
+    '</div>' +
+    '<div class="acard">' + cardHead('Session') +
+    '<p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6">Locking clears the unlocked state for this browser tab — the password will be required again at #/admin.</p>' +
+    '<button class="abtn" data-act="lock">Lock now</button>' +
+    '</div>';
+}
+function renderAdmin() {
+  document.getElementById('adminTabs').innerHTML = TABS.map(t =>
+    '<button class="atab' + (t.id === adminTab ? ' active' : '') + '" data-tab="' + t.id + '">' + t.label + '</button>').join('');
+  const body = { basics: adminBasics, education: adminEducation, experience: adminExperience, projects: adminProjects, shelf: adminShelf, security: adminSecurity }[adminTab];
+  document.getElementById('adminBody').innerHTML = body();
+}
+
+const TEMPLATES = {
+  'education': () => ({ year: '20XX — 20XX', title: 'New degree or course', place: 'Institution', desc: 'What you studied and why it mattered.', tags: [] }),
+  'experience': () => ({ year: '20XX — 20XX', role: 'New role', company: 'Company · Place', desc: 'What you owned and what changed because of it.' }),
+  'projects': () => ({ id: 'project-' + Date.now().toString(36), title: 'New project', tag: 'Product · Design', year: '2026', role: 'Design & Strategy', client: 'Client', duration: '3 months', lede: 'One-line summary of the project.', image: FALLBACK_IMG, gallery: [], sections: [{ t: 'h2', x: 'The problem' }, { t: 'p', x: 'Describe the problem here.' }, { t: 'h2', x: 'Outcome' }, { t: 'p', x: 'Describe the result here.' }] }),
+  'basics.meta': () => ({ k: 'Label', v: 'Value' }),
+  'basics.aboutDetails': () => ({ h: 'Heading', p: 'Text' }),
+  'basics.socials': () => ({ label: 'Platform', url: '#' }),
+  'shelf.books': () => ({ name: 'Book title', meta: 'Author · why it matters' }),
+  'shelf.podcasts': () => ({ name: 'Podcast', meta: 'What it covers' }),
+  'shelf.music': () => ({ name: 'Album — Artist', meta: 'When you play it' })
+};
+function resolveList(path) {
+  const keys = path.replace(/\[(\d+)\]/g, '.$1').split('.');
+  let cur = DATA;
+  keys.forEach(k => { cur = cur[k]; });
+  return cur;
+}
+function addEntry(path) {
+  const list = resolveList(path);
+  if (Array.isArray(list) && TEMPLATES[path]) { list.push(TEMPLATES[path]()); persist(false); renderAdmin(); toast('Added — fill it in below'); }
+}
+function delEntry(spec) {
+  const parts = spec.split(':');
+  const idx = parseInt(parts.pop(), 10);
+  const path = parts.join(':');
+  const list = resolveList(path);
+  if (Array.isArray(list)) { list.splice(idx, 1); persist(false); renderAdmin(); toast('Removed'); }
+}
+
+async function changePass() {
+  const p1 = document.getElementById('newPass').value;
+  const p2 = document.getElementById('confPass').value;
+  if (!p1 || p1.length < 4) { toast('Password too short (min 4 chars)'); return; }
+  if (p1 !== p2) { toast('Passwords do not match'); return; }
+  const h = await sha256(p1);
+  localStorage.setItem(PASS_KEY, h);
+  document.getElementById('newPass').value = '';
+  document.getElementById('confPass').value = '';
+  toast('Admin password updated');
+}
+
+function adminAction(act) {
+  if (act === 'save') { persist(true); }
+  else if (act === 'view') { navigate('home'); }
+  else if (act === 'lock') { sessionStorage.removeItem(AUTH_KEY); navigate('home'); toast('Studio locked'); }
+  else if (act === 'changepass') { changePass(); }
+  else if (act === 'export') {
+    const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'arush-site-data.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('Exported arush-site-data.json');
+  }
+  else if (act === 'import') { document.getElementById('importFile').click(); }
+  else if (act === 'reset') {
+    if (confirm('Reset all content to the built-in defaults? Your saved edits will be lost.')) {
+      DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      persist(false); renderAdmin(); renderHome(); toast('Content reset to defaults');
+    }
+  }
+}
+document.getElementById('importFile').addEventListener('change', function () {
+  const f = this.files[0]; if (!f) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const merged = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      Object.keys(DEFAULT_DATA).forEach(k => { if (parsed[k] !== undefined) merged[k] = parsed[k]; });
+      DATA = merged; persist(false); renderAdmin(); renderHome(); toast('Imported successfully');
+    } catch (e) { toast('Invalid JSON file'); }
+  };
+  reader.readAsText(f);
+  this.value = '';
+});
+
+document.addEventListener('input', function (e) {
+  const t = e.target;
+  const path = t.getAttribute && t.getAttribute('data-path');
+  if (!path) return;
+  let v = t.value;
+  const type = t.getAttribute('data-type') || 'text';
+  if (type === 'tags') v = v.split(',').map(s => s.trim()).filter(Boolean);
+  else if (type === 'list') v = v.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+  else if (type === 'sections') v = parseSections(v);
+  setPath(DATA, path, v);
+  persist(false);
+});
+
+/* =========================================================
+   6. ROUTING + NAV
+   ========================================================= */
+function navigate(route, param) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('mobileMenu').classList.remove('open');
+  if (route === 'home') {
+    document.getElementById('view-home').classList.add('active');
+    renderHome();
+    history.replaceState(null, '', location.pathname + location.search);
+  } else if (route === 'projects') {
+    document.getElementById('view-projects').classList.add('active');
+    renderProjectsGrid();
+    history.replaceState(null, '', '#/projects');
+  } else if (route === 'project') {
+    document.getElementById('view-project').classList.add('active');
+    renderProjectDetail(param);
+    history.replaceState(null, '', '#/project/' + param);
+  } else if (route === 'admin') {
+    document.getElementById('view-admin').classList.add('active');
+    history.replaceState(null, '', '#/admin');
+    if (isAuthenticated()) showAdminPanel(); else showAdminLock();
+  }
+  window.scrollTo({ top: 0, behavior: 'auto' });
+  setTimeout(initReveal, 60);
+}
+function goTop() {
+  if (!document.getElementById('view-home').classList.contains('active')) navigate('home');
+  else window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function goSection(id) {
+  if (!document.getElementById('view-home').classList.contains('active')) {
+    navigate('home');
+    setTimeout(() => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 120);
+  } else {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+document.addEventListener('click', function (e) {
+  const g = e.target.closest('[data-goto]');
+  if (g) {
+    e.preventDefault();
+    const val = g.getAttribute('data-goto');
+    if (val === 'top') goTop();
+    else if (val === 'projects') navigate('projects');
+    else if (val === 'admin') navigate('admin');
+    else if (val === 'home') navigate('home');
+    else if (val.indexOf('project:') === 0) navigate('project', val.slice(8));
+    else if (val.indexOf('section:') === 0) goSection(val.slice(8));
+    return;
+  }
+  const add = e.target.closest('[data-add]');
+  if (add) { addEntry(add.getAttribute('data-add')); return; }
+  const del = e.target.closest('[data-del]');
+  if (del) { delEntry(del.getAttribute('data-del')); return; }
+  const act = e.target.closest('[data-act]');
+  if (act) { adminAction(act.getAttribute('data-act')); return; }
+  const tab = e.target.closest('[data-tab]');
+  if (tab) { adminTab = tab.getAttribute('data-tab'); renderAdmin(); return; }
+});
+document.getElementById('menuBtn').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
+document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open')));
+
+function handleHash() {
+  const hash = location.hash.replace('#', '');
+  if (hash.indexOf('/project/') === 0) navigate('project', hash.slice(9));
+  else if (hash === '/projects') navigate('projects');
+  else if (hash === '/admin') navigate('admin');
+  else if (!document.getElementById('view-home').classList.contains('active')) navigate('home');
+}
+window.addEventListener('hashchange', handleHash);
+
+/* =========================================================
+   7. MOTION
+   ========================================================= */
+let revealObserver = null;
+function initReveal() {
+  if (revealObserver) revealObserver.disconnect();
+  revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); revealObserver.unobserve(en.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.view.active .reveal:not(.in), .view.active .rule:not(.in), .view.active .tl-line:not(.in)').forEach(el => revealObserver.observe(el));
+}
+const arushData = [
+  '<span class="key">A</span>I — intelligence as a material',
+  't<span class="key">R</span>ansformation — change, made tangible',
+  'b<span class="key">U</span>siness — the engine beneath the craft',
+  '<span class="key">S</span>trategy — choices, made explicit',
+  'leaders<span class="key">H</span>ip — building what outlasts you'
+];
+(function setupArush() {
+  const sec = document.getElementById('arushSection');
+  const letters = document.querySelectorAll('.arush-letter');
+  const meaning = document.getElementById('arushMeaning');
+  const counter = document.getElementById('arushCounter');
+  const bar = document.getElementById('arushBar');
+  const intro = document.getElementById('arushIntro');
+  function updateArush() {
+    const rect = sec.getBoundingClientRect();
+    const total = sec.offsetHeight - window.innerHeight;
+    const prog = Math.max(0, Math.min(1, (-rect.top) / total));
+    bar.style.width = (prog * 100) + '%';
+    const stage = Math.min(4, Math.floor(prog * 5));
+    intro.style.opacity = prog < 0.05 ? 1 : 0;
+    letters.forEach((el, i) => {
+      el.classList.remove('active', 'done');
+      if (i < stage) el.classList.add('done');
+      else if (i === stage && prog > 0.02) el.classList.add('active');
+    });
+    if (prog < 0.02) { meaning.innerHTML = '&nbsp;'; counter.textContent = '00 / 05'; }
+    else { meaning.innerHTML = arushData[stage]; counter.textContent = '0' + (stage + 1) + ' / 05'; }
+  }
+  window.addEventListener('scroll', updateArush, { passive: true });
+  updateArush();
+})();
+(function buildMarquee() {
+  const words = ['<b>A</b>I', 't<b>R</b>ansformation', 'b<b>U</b>siness', '<b>S</b>trategy', 'leaders<b>H</b>ip', 'Design', 'Technology', 'Craft'];
+  const chunk = words.map(w => '<span>' + w + ' &nbsp;•&nbsp; </span>').join('');
+  document.getElementById('marqueeTrack').innerHTML = chunk + chunk + chunk + chunk;
+})();
+(function setupSpy() {
+  const map = [
+    { id: 'sec-hero', nav: 'index' }, { id: 'sec-about', nav: 'index' },
+    { id: 'sec-education', nav: 'journey' }, { id: 'sec-experience', nav: 'journey' },
+    { id: 'sec-work', nav: 'work' }, { id: 'sec-shelf', nav: 'shelf' }
+  ];
+  function spy() {
+    if (!document.getElementById('view-home').classList.contains('active')) return;
+    const mark = window.innerHeight * 0.4;
+    let current = 'index';
+    map.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el && el.getBoundingClientRect().top <= mark) current = s.nav;
+    });
+    document.querySelectorAll('.nav-links a[data-nav]').forEach(a => a.classList.toggle('active', a.getAttribute('data-nav') === current));
+  }
+  window.addEventListener('scroll', spy, { passive: true });
+  spy();
+})();
+
+/* INIT */
+renderHome();
+initReveal();
+setTimeout(handleHash, 80);
+</script>
+</body>
+</html>
