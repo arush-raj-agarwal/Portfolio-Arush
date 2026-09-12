@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arush Raj Agarwal | Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Edit Button -->
+    <button id="edit-btn" class="edit-btn" style="display:none;">✏️ Edit</button>
+
+    <!-- Portfolio Content -->
+    <div id="portfolio-content">
+        <header>
+            <h1 id="hero-name">Arush Raj Agarwal</h1>
+            <p id="hero-sub">Building digital experiences with code & creativity.</p>
+            <div id="social-links"></div>
+            <a id="contact-email" href="mailto:arush@example.com">arush@example.com</a>
+        </header>
+
+        <main>
+            <section id="about">
+                <h2>About</h2>
+                <p id="about-text"></p>
+                <div id="about-details"></div>
+            </section>
+
+            <section id="education">
+                <h2>Education</h2>
+                <div id="education-list"></div>
+            </section>
+
+            <section id="experience">
+                <h2>Experience</h2>
+                <div id="experience-list"></div>
+            </section>
+
+            <section id="projects">
+                <h2>Projects</h2>
+                <div id="projects-grid"></div>
+            </section>
+
+            <section id="shelf">
+                <h2>Currently Reading / Listening</h2>
+                <div id="shelf-list"></div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Arush Raj Agarwal</p>
+        </footer>
+    </div>
+
+    <!-- Admin Panel (hidden by default) -->
+    <div id="admin-panel" style="display:none;"></div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
